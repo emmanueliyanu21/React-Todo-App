@@ -106,7 +106,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className="bg-[#fff] pt-10 pl-2 px-2">
+      <div className="bg-[#fff] pt-10 px-5">
         <div className="bg-[#fff] pb-5 w-md-9/12 m-auto w-96 rounded-3xl shadow-[0px_3px_32px_-2px_rgb(202,202,202)]">
           <div className="text-center bg-[#cc634f] py-5 text-white rounded-t-3xl font-sans">
             Today,&nbsp;
