@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { ITask } from "./Interfaces/ITask";
-import { addTodo } from "./actions/todoAction";
-import { RootState } from "./reducers";
+import { ITask } from "../module/Interfaces/ITask";
+import { addTodo } from "../module/actions/todoAction";
+import { RootState } from "../module/reducers";
 import Image from "next/image";
 
 export default function Home() {
