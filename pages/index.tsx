@@ -28,7 +28,7 @@ export default function Home() {
       return filteredData;
     }
     const filteredTodos = filteredData.filter(
-      (todo) => todo.release_year === selectedCode
+      (todo) => todo.code_code === selectedCode
     );
     return filteredTodos;
   };
@@ -45,13 +45,14 @@ export default function Home() {
   };
 
   const handleCodeChange = (value) => {
-    const inputCode = String(value);
-    setSelectedCode(inputCode);
+    if (todo.trim() !== "") {
+      const inputCode = String(value);
+      setSelectedCode(inputCode);
+    }
   };
 
-  
   useEffect(() => {
-    const json = localStorage.getItem("todos") ;
+    const json = localStorage.getItem("todos");
     const loadedTodos = JSON.parse(json);
     if (loadedTodos) {
       setTodos(loadedTodos);
@@ -59,8 +60,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const jsons = JSON.stringify(todos) ;
-    localStorage.setItem("todos", jsons) ;
+    const jsons = JSON.stringify(todos);
+    localStorage.setItem("todos", jsons);
   }, [todos]);
 
   useEffect(() => {
@@ -155,28 +156,32 @@ export default function Home() {
             <div className={styles.todoBody} key={todo.id}>
               <ul className="pl-0 mt-0 mb-0 align-middle">
                 <li className="text-sm py-4 pl-8 list-none font-sans flex justify-between align-middle">
-                  <span className="flex gap-2.5">
+                  <span className="flex gap-2.5" onClick={() => ToggleButton(todo.id)}>
                     <span>
                       {todo.completed === false ? (
-                        <Image
-                          src="/images/incomplete.png"
-                          alt="Picture of the author"
-                          width={20}
-                          height={20}
-                          id="completed"
-                          onClick={() => ToggleButton(todo.id)}
-                          onChange={() => toggleComplete(todo.id)}
-                        />
+                        <div id="2018" >
+                          <Image
+                            src="/images/incomplete.png"
+                            alt="Picture of the author"
+                            width={20}
+                            height={20}
+                            id="completed"
+                            
+                            onChange={() => toggleComplete(todo.id)}
+                          />
+                        </div>
                       ) : (
-                        <Image
-                          src="/images/completed.png"
-                          alt="Picture of the author"
-                          width={20}
-                          height={20}
-                          id="completed"
-                          onClick={() => ToggleButton(todo.id)}
-                          onChange={() => toggleComplete(todo.id)}
-                        />
+                        <div className="" id="2019">
+                          <Image
+                            src="/images/completed.png"
+                            alt="Picture of the author"
+                            width={20}
+                            height={20}
+                            id="completed"
+                            onClick={() => ToggleButton(todo.id)}
+                            onChange={() => toggleComplete(todo.id)}
+                          />
+                        </div>
                       )}
                     </span>
                     <span className="styles.textWord">{todo.text}</span>
@@ -234,8 +239,14 @@ export default function Home() {
                 />
               </div>
               <div className="flex gap-2.5">
-                <button onClick={() => handleCodeChange("2018")} className="w-5 h-5 bg-[#86DA83] rounded"></button>
-                <button onClick={() => handleCodeChange("2019")} className="w-5 h-5 bg-[#8F83DA] rounded"></button>
+                <button
+                  onClick={() => handleCodeChange("2018")}
+                  className="w-5 h-5 bg-[#86DA83] rounded"
+                ></button>
+                <button
+                  onClick={() => handleCodeChange("2019")}
+                  className="w-5 h-5 bg-[#8F83DA] rounded"
+                ></button>
               </div>
             </div>
           </form>

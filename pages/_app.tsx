@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import { Provider } from 'react-redux'
 import store, {persistor} from '../module/store'
+// import store  from '../module/store'
 
 
 function MyApp({ Component, pageProps }) {
