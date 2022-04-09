@@ -22,8 +22,11 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/data.js", "pages/reducers/todo.reducer.tsx", "module/data.js"  ],
+    "**/*.tsx",
+    "pages/data.js",
+    "pages/reducers/todo.reducer.tsx",
+    "module/data.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]
