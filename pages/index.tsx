@@ -10,17 +10,15 @@ import { RootState } from "../module/reducers";
 import Image from "next/image";
 
 export default function Home() {
-    const todoList = useSelector((state: RootState) => state);
-    // console.log(todoList)
-  
-   const [todos, setTodos] = useState<ITask[]>(todoList.todosList);
+  const todoList = useSelector((state: RootState) => state);
+
+  const [todos, setTodos] = useState<ITask[]>(todoList.todosList);
   const [todo, setTodo] = useState<string>("");
 
   // Selected Year filter
   const [selectedCode, setSelectedCode] = useState<string>("");
 
   const dispatch = useDispatch();
-  const [textflag, setTextFlag] = useState(false);
 
   const activeCount = todos.length;
   const newDate = new Date();
@@ -51,18 +49,30 @@ export default function Home() {
     setSelectedCode(inputCode);
   };
 
+  
+  useEffect(() => {
+    const json = localStorage.getItem("todos") ;
+    const loadedTodos = JSON.parse(json);
+    if (loadedTodos) {
+      setTodos(loadedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    const jsons = JSON.stringify(todos) ;
+    localStorage.setItem("todos", jsons) ;
+  }, [todos]);
+
   useEffect(() => {
     var filteredData = todoList.todosList;
     filteredData = filterByCode(filteredData);
     setTodos(filteredData);
   }, [selectedCode]);
 
-  
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (selectedCode == "") {
+    if (selectedCode === "") {
       return Error;
     }
 
@@ -74,23 +84,22 @@ export default function Home() {
       id: new Date().getTime(),
       text: todo,
       completed: false,
-      release_year: selectedCode,
+      code_code: selectedCode,
     };
-    dispatch(addTodo(newTodo))
-    // console.log(newTodo);
+    dispatch(addTodo(newTodo));
     setTodos([...todos].concat(newTodo));
     setTodo("");
   };
 
   const ToggleButton = (id: number) => {
-    console.log(id)
+    console.log(id);
     let updatedTodos = todos.map((todo) => {
-      if(todo.id === id){
+      if (todo.id === id) {
         todo.completed = !todo.completed;
-        console.log(todo.completed)
-      } 
-      return todo
-    })
+        console.log(todo.completed);
+      }
+      return todo;
+    });
     setTodos(updatedTodos);
   };
 
@@ -106,7 +115,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className="bg-[#fff] pt-10 px-5">
+      <div className="bg-[#fff] pt-10">
         <div className="bg-[#fff] pb-5 w-md-9/12 m-auto w-96 rounded-3xl shadow-[0px_3px_32px_-2px_rgb(202,202,202)]">
           <div className="text-center bg-[#cc634f] py-5 text-white rounded-t-3xl font-sans">
             Today,&nbsp;
@@ -114,9 +123,14 @@ export default function Home() {
           </div>
           <div className="bg-[#f9f9f9] py-4 flex justify-between text-[#cc634f] pr-5 pl-8">
             <div>
-              <p className="mt-0 mb-0 font-sans font-medium">Showing {activeCount} tasks</p>
+              <p className="mt-0 mb-0 font-sans font-medium">
+                Showing {activeCount} tasks
+              </p>
             </div>
-            <div className="flex gap-2.5 justify-between" onClick={handleColorCodeChange}>
+            <div
+              className="flex gap-2.5 justify-between"
+              onClick={handleColorCodeChange}
+            >
               <div id="2018">
                 <Image
                   src="/images/green.png"
@@ -141,8 +155,8 @@ export default function Home() {
             <div className={styles.todoBody} key={todo.id}>
               <ul className="pl-0 mt-0 mb-0 align-middle">
                 <li className="text-sm py-4 pl-8 list-none font-sans flex justify-between align-middle">
-                  <span className="flex gap-2.5"  >
-                    <span >
+                  <span className="flex gap-2.5">
+                    <span>
                       {todo.completed === false ? (
                         <Image
                           src="/images/incomplete.png"
@@ -168,7 +182,7 @@ export default function Home() {
                     <span className="styles.textWord">{todo.text}</span>
                   </span>
                   <span>
-                    {todo.release_year === "2018" ? (
+                    {todo.code_code === "2018" ? (
                       <FontAwesomeIcon
                         icon={faCircle}
                         style={{
@@ -212,31 +226,16 @@ export default function Home() {
                   }}
                 />
                 <input
-                className="mr-2.5 font-sans h-8 w-4/5 outline-0"
+                  className="mr-2.5 font-sans h-8 w-4/5 outline-0"
                   type="text"
                   placeholder="Add a Task"
                   onChange={(e) => setTodo(e.target.value)}
                   value={todo}
                 />
               </div>
-              <div className="flex justify-between" >
-                  <button onClick={() => handleCodeChange('2018')} className="bg-transparent">
-                    <Image
-                      src="/images/green.png"
-                      alt="Picture of the author"
-                      width={20}
-                      height={20}
-                    />
-                  </button>
-                  <button onClick={() => handleCodeChange('2019')}  className="bg-transparent border-none" >
-                    <Image
-                      src="/images/purple.png"
-                      alt="Picture of the author"
-                      width={20}
-                      height={20}
-                    />
-                    {/* 2019 */}
-                  </button>
+              <div className="flex gap-2.5">
+                <button onClick={() => handleCodeChange("2018")} className="w-5 h-5 bg-[#86DA83] rounded"></button>
+                <button onClick={() => handleCodeChange("2019")} className="w-5 h-5 bg-[#8F83DA] rounded"></button>
               </div>
             </div>
           </form>
