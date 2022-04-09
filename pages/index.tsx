@@ -9,6 +9,7 @@ import { addTodo } from "../module/actions/todoAction";
 import { RootState } from "../module/reducers";
 import Image from "next/image";
 
+
 export default function Home() {
   const todoList = useSelector((state: RootState) => state);
 
